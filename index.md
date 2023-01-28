@@ -188,3 +188,4 @@ static int[] reversed(int[] arr) {
 
 
 # Summary
+In week 2 and 3's lab report, I learn to handle http request and get information from the url. Beside that, I learn to write test cases using Junit test and debug respectively. It is hard sometimes, but I learnt a lot.
