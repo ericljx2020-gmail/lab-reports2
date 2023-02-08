@@ -72,10 +72,35 @@ The main method of this class enable the server to run while enable this server 
 3. `res` the String that contains all the elements added and the newly added element, with a "\n" after each element
 
 ![Image](3.png)
-in the screenshot above, both the urlhandler method and the main method are triggered. After inputping the url with *add-message?s=...* the url handler will add element after "s=" to the comp list. And a for loop will put every element together and put them into a String res. and res will be print.
+in the screenshot above, both the urlhandler method and the main method are triggered. After inputping the url with *add-message?s=...* the url handler will add element after "s=" to the comp list.And a for loop will put every element together and put them into a String res. and res will be print.
+In this Image, following are the change of variables.
+**before change**
+---
+* `idx`:0
+* `comp`:{}
+* `res`:""
+---
+**after change**
+* `idx`:1
+* `comp`: {"hello"}
+* `res`:"hello\n"
+
+Also the function *getPath()* and *getQuery()* are triggered to handle the url put into the search engine.
+---
 ![Image](4.png)
 This image follows the exact same process as the upper one.
+**before change**
+---
+* `idx`:1
+* `comp`: {"hello"}
+* `res`:""
+---
+**after change**
+* `idx`:2
+* `comp`: {"hello", "how are you"}
+* `res`:"hello\nhow are you\n"
 
+Also the function *getPath()* and *getQuery()* are triggered to handle the url put into the search engine.
 
 # failure inducing input of Code
 
@@ -94,6 +119,8 @@ static int[] reversed(int[] arr) {
   return arr;
 }
 ```
+1, The problem of the `reverseInPlace()` is that it swap the array two times, which means the array becomes the original one. The correct way is to loop through the front half of the array. This will make sure that every element get swap exactly once.
+2, The issue of the `reversed()` is that it returns **arr[]**, while it should return newArray[]. The point of this function should be to reverse the original array using a new array. However, the method mistakenly change the original array to value of the newArray, which contains no value at first. That is why it doesn't work as intended.
 
 ## Testcase that induce eror
 ```
@@ -131,14 +158,17 @@ public void testReversed() {
 ## Symptoms
 **didn't reverse the list as expected**
 ![Image](6.png)
+From the test failure above, I observe that the list is not reversed with the for loop successfully implemented, but correct when there is only one element. So I think it might be the problem of the time of swap of each elements is two, which swap them to the correct position and swap them back after that. So I changed the number of time that the loop should go, and it work perfectly now
 
 **didn't reverse the list as expected**
 ![Image](7.png)
+This method only passes when there is no element in the list to be reversed. That means this function doesn't work at all. This is probably the problem of wrong argument. So I observe that the original code is reversing empty list to parameter list, which is completely non-sense. So I changed the return list ot newArray and change the arr to be modified in the for loop to newArray. That would make sure we make changes to the list that is supposed to be changed. Problem is therefore solved.
+
 
 
 ## Bugs fixing
-ReverseInPlace fixing strategy
-*Before*
+**ReverseInPlace fixing strategy**
+*Before fixing the code is shown as below*
 ```
 // Changes the input array to be in reversed order
 static void reverseInPlace(int[] arr) {
@@ -148,7 +178,7 @@ static void reverseInPlace(int[] arr) {
 }
 ```
 
-*After* 
+*After fixing the code is shown as below*
 1. Added a temp that ensure proper value swap of two elements
 2. divided the loop time by two so that it won't swap every element for two times
 ```
@@ -162,8 +192,8 @@ static void reverseInPlace(int[] arr) {
   }
 ```
 
-Reversed Fixing
-*Before*
+**Reversed function Fixing**
+*Before fixing the code is shown as below*
 ```
 static int[] reversed(int[] arr) {
   int[] newArray = new int[arr.length];
@@ -174,7 +204,7 @@ static int[] reversed(int[] arr) {
 }
 ```
 
-*After*
+*After fixing the code is shown as below*
 1. The returned array and modified array should be newArray but not arr. After changing that, the program runs fine.
 ```
 static int[] reversed(int[] arr) {
