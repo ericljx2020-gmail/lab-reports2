@@ -93,7 +93,7 @@ This image follows the exact same process as the upper one.
 ---
 * `idx`:1
 * `comp`: {"hello"}
-* `res`:""
+* `res`: ""
 ---
 **after change**
 * `idx`:2
